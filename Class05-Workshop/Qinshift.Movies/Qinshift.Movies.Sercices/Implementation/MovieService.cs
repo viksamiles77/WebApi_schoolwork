@@ -26,19 +26,22 @@ namespace Qinshift.Movies.Services.Implementation
         }
         public List<Movie> FilterMoviesByYear(int year)
         {
-            if (year < 0 || year >= StaticDb.Movies.Count) { return new List<Movie>(); }
+            if (year < 0) { return new List<Movie>(); }
             return StaticDb.Movies.Where(x => x.Year == year).ToList();
         }
 
-        public void UpdateMovie(Movie movie)
+        public Movie UpdateMovie(Movie movie)
         {
-            var exisingMovie = StaticDb.Movies.FirstOrDefault(x => x.Id == movie.Id);
-            if (exisingMovie != null)
+            var existingMovie = StaticDb.Movies.FirstOrDefault(x => x.Id == movie.Id);
+            if (existingMovie != null)
             {
-                exisingMovie.Title = movie.Title;
-                exisingMovie.Year = movie.Year;
-                exisingMovie.Genre = movie.Genre;
+                existingMovie.Title = movie.Title;
+                existingMovie.Description = movie.Description;
+                existingMovie.Year = movie.Year;
+                existingMovie.Genre = movie.Genre;
+                return existingMovie;
             }
+            return null;
         }
 
         public void DeleteMovieById(int id)
