@@ -64,11 +64,23 @@ namespace Qinshift.Movies.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateMovie([FromBody] MovieCreateDto movieCreateDto)
+        public IActionResult UpdateMovie([FromBody] MovieUpdateDto movieUpdateDto)
         {
-            var movie = MovieMapper.ToMovie(movieCreateDto);
-            _movieService.UpdateMovie(movie);
-            return Ok(movie);
+            if (movieUpdateDto == null || movieUpdateDto.Id == 0)
+            {
+                return BadRequest("Invalid movie data.");
+            }
+
+            var movie = MovieMapper.ToMovie(movieUpdateDto);
+            var updatedMovie = _movieService.UpdateMovie(movie);
+
+            if (updatedMovie == null)
+            {
+                return NotFound("Movie not found.");
+            }
+
+            var movieDto = MovieMapper.ToMovieDto(updatedMovie);
+            return Ok(movieDto);
         }
 
         [HttpDelete("{id}")]
