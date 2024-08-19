@@ -26,6 +26,17 @@ namespace Qinshift.Movies.Services
                 Genre = movieCreateDto.Genre,
             };
         }
+        public static Movie ToMovie(MovieUpdateDto movieUpdateDto)
+        {
+            return new Movie
+            {
+                Id = movieUpdateDto.Id,
+                Title = movieUpdateDto.Title,
+                Description = movieUpdateDto.Description,
+                Year = movieUpdateDto.Year,
+                Genre = movieUpdateDto.Genre,
+            };
+        }
 
         public static List<MovieDto> ToMovieDtoList(List<Movie> movies)
         {
