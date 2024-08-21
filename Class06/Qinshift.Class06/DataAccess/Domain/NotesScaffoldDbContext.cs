@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Qinshift.DataAccess.Domain
 {
@@ -41,9 +38,10 @@ namespace Qinshift.DataAccess.Domain
                     .WithMany(p => p.Notes)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Notes__UserId__398D8EEE");
+                    .HasConstraintName("FK__Notes__UserId__267ABA7A");
             });
             #endregion
+
             #region Users
             modelBuilder.Entity<User>(entity =>
             {
@@ -54,7 +52,7 @@ namespace Qinshift.DataAccess.Domain
                 entity.Property(e => e.Username).HasMaxLength(30);
             });
             #endregion
-            #region Meals
+
             modelBuilder.Entity<Meal>(entity =>
             {
                 entity.ToTable("Meals");
@@ -69,11 +67,22 @@ namespace Qinshift.DataAccess.Domain
                 .HasForeignKey(x => x.UserId)
                 .HasConstraintName("MyCustomUserId_FK");
 
-                // This will skip the Description property from the Meal domain model
-                // and will not create Description column in the Meal table
-                // entity.Ignore(x => x.Description);
+
+                // This will skip the Decrtiption property from the 
+                // Meal domain model, and will not create Description column in the Meals Table in db
+
+                //entity.Ignore(x => x.Description);
+
             });
-            #endregion
+
+
+
+
+
+
+
+
+
 
             OnModelCreatingPartial(modelBuilder);
         }
