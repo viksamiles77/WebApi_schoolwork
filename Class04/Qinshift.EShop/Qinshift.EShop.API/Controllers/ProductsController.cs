@@ -20,6 +20,7 @@ namespace Qinshift.EShop.API.Controllers
                 Price = x.Price,
                 ImageUrl = x.ImageUrl,
             }).ToList();
+
             return Ok(products);
         }
 
@@ -28,19 +29,17 @@ namespace Qinshift.EShop.API.Controllers
         public ActionResult<ProductDto> GetById(int id)
         {
             if (id <= 0 || id > StaticDb.Products.Count)
-                return BadRequest("Id must have value bigger than zero!");
+                return BadRequest("Id must have value bigger than zero");
 
             var productDto = StaticDb.Products
-                .Where(x => x.Id == id)
-                .Select(x => new ProductDto
-                {
-                    Name = x.Name,
-                    Description = x.Description,
-                    Price = x.Price,
-                    ImageUrl = x.ImageUrl,
-                })
-                .SingleOrDefault();
-
+                                    .Where(x => x.Id == id)
+                                    .Select(x => new ProductDto
+                                    {
+                                        Name = x.Name,
+                                        Description = x.Description,
+                                        Price = x.Price,
+                                        ImageUrl = x.ImageUrl
+                                    }).SingleOrDefault();
             if (productDto == null)
             {
                 return NotFound();
@@ -51,17 +50,18 @@ namespace Qinshift.EShop.API.Controllers
 
         // POST: api/products
         [HttpPost]
+        [HttpPost]
         public ActionResult<ProductDto> Post([FromBody] ProductCreateDto productCreateDto)
         {
-            if (productCreateDto == null) return BadRequest("You must insert all the values for the product!");
+            if (productCreateDto == null)
+                return BadRequest("You must insert all the values for the product!");
 
+            var newId = StaticDb.Products.Max(x => x.Id) + 1;
             var category = StaticDb.Categories.SingleOrDefault(x => x.Id == productCreateDto.CategoryId);
             if (category == null)
             {
                 return NotFound("Not found such category!");
             }
-
-            var newId = StaticDb.Products.Max(x => x.Id) + 1;
 
             var product = new Product
             {
@@ -80,6 +80,7 @@ namespace Qinshift.EShop.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = product.Id }, productCreateDto);
         }
 
+
         // PUT: api/products/{id}
         [HttpPut("{id:int}")]
         public IActionResult Put(int id, [FromBody] ProductCreateDto productCreateDto)
@@ -87,7 +88,8 @@ namespace Qinshift.EShop.API.Controllers
             var existingProduct = StaticDb.Products.SingleOrDefault(x => x.Id == id);
             var category = StaticDb.Categories.SingleOrDefault(x => x.Id == productCreateDto.CategoryId);
 
-            if (existingProduct == null) return NotFound("Not found such product for update!");
+            if (existingProduct == null)
+                return NotFound("Not found such product for update!");
 
             // Update the existing product
             existingProduct.Name = productCreateDto.Name;
@@ -99,6 +101,7 @@ namespace Qinshift.EShop.API.Controllers
             existingProduct.Category = category;
 
             return Ok("Product updated successfully!");
+
         }
 
         // DELETE: api/products/{id}
@@ -106,12 +109,11 @@ namespace Qinshift.EShop.API.Controllers
         public IActionResult Delete(int id)
         {
             var product = StaticDb.Products.SingleOrDefault(x => x.Id == id);
-
-            if (product == null) return NotFound($"Not found product with id: {id} for delete!");
+            if (product == null)
+                return NotFound($"Not found product with id: {id} for delete");
 
             StaticDb.Products.Remove(product);
-
-            return Ok("Product deleted successfully");
+            return Ok("Product deleted successfully!");
         }
     }
 }
