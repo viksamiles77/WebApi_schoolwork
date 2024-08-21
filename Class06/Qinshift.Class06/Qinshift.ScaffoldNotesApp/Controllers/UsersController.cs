@@ -17,8 +17,10 @@ namespace Qinshift.ScaffoldNotesApp.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var users = _context.Users.Include(x=> x.Contacts).ToList();
+            var users = _context.Users.FirstOrDefault(x => x.Id == 1);
             return Ok(users);
         }
+
+
     }
 }
