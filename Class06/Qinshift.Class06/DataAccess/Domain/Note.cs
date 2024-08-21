@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Qinshift.DataAccess.Domain
+﻿namespace Qinshift.DataAccess.Domain
 {
     public partial class Note
     {
