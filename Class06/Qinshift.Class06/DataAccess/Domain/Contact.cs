@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Qinshit.DataAccess.Domain
+namespace Qinshift.DataAccess.Domain
 {
     [Table("Contacts")]
     public class Contact
