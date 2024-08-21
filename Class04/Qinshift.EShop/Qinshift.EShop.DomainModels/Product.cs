@@ -1,4 +1,4 @@
-﻿namespace Qinshift.EShop.API.Models
+﻿namespace Qinshift.EShop.DomainModels
 {
     public class Product : BaseEntity
     {
@@ -9,6 +9,6 @@
         public string ImageUrl { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }
