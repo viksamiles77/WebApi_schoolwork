@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Qinshift.EShop.DataAccess;
 using Qinshift.EShop.DataAccess.AdonetImplementation;
+using Qinshift.EShop.DataAccess.DapperImplementation;
 using Qinshift.EShop.DataAccess.Implementation;
 using Qinshift.EShop.DataAccess.Interface;
 using Qinshift.EShop.DomainModels;
@@ -18,14 +19,13 @@ namespace Qinshift.EShop.Services.Helpers
             return services;
         }
 
-        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services, string connectionString)
         {
             services.AddTransient(typeof(IRepository<>), typeof(DataRepository<>));
             //services.AddTransient<ICategoryRepository, CategoryRepository>();
-
-            var connectionString = "Server=.;Database=EShopDb;Trusted_Connection=True";
-
-            services.AddTransient<IRepository<Category>>(x => new CategoryAdoRepository(connectionString));
+            
+            //services.AddTransient<IRepository<Category>>(x => new CategoryAdoRepository(connectionString));
+            services.AddTransient<IRepository<Category>>(x => new CategoryDapperRepository(connectionString));
 
             return services;
         }
