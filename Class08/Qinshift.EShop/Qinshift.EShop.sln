@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qinshift.EShop.API", "Qinshift.EShop.API\Qinshift.EShop.API.csproj", "{A0800C88-F4AC-4707-AE2A-4D71CEA41736}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qinshift.EShop.DomainModels", "Qinshift.EShop.DomainModels\Qinshift.EShop.DomainModels.csproj", "{7159E543-9B58-4B24-B464-26FFB9F2618D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qinshift.EShop.DataAccess", "Qinshift.EShop.DataAccess\Qinshift.EShop.DataAccess.csproj", "{F4D83F43-38C8-46F1-9B43-7FD91BD65A42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qinshift.EShop.Services", "Qinshift.EShop.Services\Qinshift.EShop.Services.csproj", "{AA3F6C27-48AE-4E22-9291-5BFE518EB94B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qinshift.EShop.DTOs", "Qinshift.EShop.DTOs\Qinshift.EShop.DTOs.csproj", "{BEA40B3E-8C41-4B12-A2B2-F1882314C430}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0800C88-F4AC-4707-AE2A-4D71CEA41736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0800C88-F4AC-4707-AE2A-4D71CEA41736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0800C88-F4AC-4707-AE2A-4D71CEA41736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0800C88-F4AC-4707-AE2A-4D71CEA41736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7159E543-9B58-4B24-B464-26FFB9F2618D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7159E543-9B58-4B24-B464-26FFB9F2618D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7159E543-9B58-4B24-B464-26FFB9F2618D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7159E543-9B58-4B24-B464-26FFB9F2618D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D83F43-38C8-46F1-9B43-7FD91BD65A42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D83F43-38C8-46F1-9B43-7FD91BD65A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D83F43-38C8-46F1-9B43-7FD91BD65A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D83F43-38C8-46F1-9B43-7FD91BD65A42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA3F6C27-48AE-4E22-9291-5BFE518EB94B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA3F6C27-48AE-4E22-9291-5BFE518EB94B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA3F6C27-48AE-4E22-9291-5BFE518EB94B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA3F6C27-48AE-4E22-9291-5BFE518EB94B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEA40B3E-8C41-4B12-A2B2-F1882314C430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEA40B3E-8C41-4B12-A2B2-F1882314C430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEA40B3E-8C41-4B12-A2B2-F1882314C430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEA40B3E-8C41-4B12-A2B2-F1882314C430}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6E302D0-0437-4191-815B-56518ECDDD73}
+	EndGlobalSection
+EndGlobal
