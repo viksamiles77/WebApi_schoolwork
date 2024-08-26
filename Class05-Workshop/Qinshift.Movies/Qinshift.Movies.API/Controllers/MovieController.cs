@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Qinshift.Movies.DTOs;
-using Qinshift.Movies.Services;
+using Qinshift.Movies.Services.Helpers;
 using Qinshift.Movies.Services.Implementation;
 
 namespace Qinshift.Movies.API.Controllers
@@ -9,15 +9,23 @@ namespace Qinshift.Movies.API.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
-        private readonly IMovieService _movieService = new MovieService();
+        private readonly IMovieService _movieService;
+        public MovieController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
 
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAllMovies()
         {
-            var movies = _movieService.GetAllMovies();
-            var movieDtos = MovieMapper.ToMovieDtoList(movies);
-
-            return Ok(movieDtos);
+            try
+            {
+                return Ok(_movieService.GetAllMovies());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
@@ -28,8 +36,19 @@ namespace Qinshift.Movies.API.Controllers
             {
                 return NotFound();
             }
-            var movieDto = MovieMapper.ToMovieDto(movie);
-            return Ok(movieDto);
+            return Ok(movie);
+        }
+
+        [HttpGet]
+        public IActionResult GetById([FromQuery] int id) {
+            try
+            {
+                return Ok(_movieService.GetMovieById(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet("filter/genre")]
@@ -44,8 +63,7 @@ namespace Qinshift.Movies.API.Controllers
 
                 var movies = _movieService.FilterMoviesByGenre(genre);
 
-                var movieDtos = MovieMapper.ToMovieDtoList(movies);
-                return Ok(movieDtos);
+                return Ok(movies);
 
             }
             catch (Exception ex)

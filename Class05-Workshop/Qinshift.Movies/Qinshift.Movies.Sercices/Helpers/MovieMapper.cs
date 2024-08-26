@@ -1,7 +1,8 @@
 ﻿using Qinshift.Movies.DomainModels;
+using Qinshift.Movies.DomainModels.Enums;
 using Qinshift.Movies.DTOs;
 
-namespace Qinshift.Movies.Services
+namespace Qinshift.Movies.Services.Helpers
 {
     public static class MovieMapper
     {
@@ -23,7 +24,7 @@ namespace Qinshift.Movies.Services
                 Title = movieCreateDto.Title,
                 Description = movieCreateDto.Description,
                 Year = movieCreateDto.Year,
-                Genre = movieCreateDto.Genre,
+                Genre =(GenreEnum) movieCreateDto.Genre,
             };
         }
         public static Movie ToMovie(MovieUpdateDto movieUpdateDto)

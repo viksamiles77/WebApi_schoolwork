@@ -1,3 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Qinshft.Movies.DataAccess;
+using Qinshft.Movies.DataAccess.Implementation;
+using Qinshft.Movies.DataAccess.Interfaces;
+using Qinshift.Movies.DomainModels;
+using Qinshift.Movies.Services.Implementation;
+using Qinshift.Movies.Services.Helpers;
+
 namespace Qinshift.Movies.API
 {
     public class Program
@@ -12,6 +20,13 @@ namespace Qinshift.Movies.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            string connString = builder.Configuration.GetConnectionString("ConnectionString");
+
+            builder.Services.RegisterDbContext(connString);
+            builder.Services.RegisterRepositories();
+
+            builder.Services.AddTransient<IMovieService, MovieService>();
 
             var app = builder.Build();
 
