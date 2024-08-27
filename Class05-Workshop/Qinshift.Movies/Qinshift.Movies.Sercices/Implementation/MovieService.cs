@@ -1,7 +1,5 @@
-﻿using Qinshft.Movies.DataAccess;
-using Qinshft.Movies.DataAccess.Interfaces;
+﻿using Qinshft.Movies.DataAccess.Interfaces;
 using Qinshift.Movies.DomainModels;
-using Qinshift.Movies.DomainModels.Enums;
 using Qinshift.Movies.DTOs;
 using Qinshift.Movies.Services.Helpers;
 
@@ -28,13 +26,16 @@ namespace Qinshift.Movies.Services.Implementation
 
         public int AddNewMovie(MovieCreateDto movie)
         {
-            Movie movieModel = new();
-            if (movie != null)
+            if (movie == null)
             {
-                movieModel = MovieMapper.ToMovie(movie);
-                return _movieRepo.Add(movieModel);
+                return 0;
             }
-            return 0;
+
+            Movie movieModel = MovieMapper.ToMovie(movie);
+
+            int newMovieId = _movieRepo.Add(movieModel);
+
+            return newMovieId;
         }
 
         public MovieDto GetMovieById(int id)
@@ -57,28 +58,37 @@ namespace Qinshift.Movies.Services.Implementation
                 movieList.Add(movieDto);
             }
             return movieList;
-            //if (Enum.TryParse<GenreEnum>(genre, true, out var genreEnum))
-            //{
-            //    return StaticDb.Movies.Where(x => x.Genre == genreEnum).ToList();
-            //}
-            //return new List<Movie>();
         }
-        public List<Movie> FilterMoviesByYear(int year)
+        public List<MovieDto> FilterMoviesByYear(int year)
         {
-            if (year < 0) { return new List<Movie>(); }
-            return StaticDb.Movies.Where(x => x.Year == year).ToList();
+            var movies = _movieRepo.GetAll();
+            var movieList = new List<MovieDto>();
+
+            if (year > 0)
+            {
+                movies = movies.Where(x => x.Year == year).ToList();
+                foreach (var movie in movies)
+                {
+                    var movieDto = MovieMapper.ToMovieDto(movie);
+                    movieList.Add(movieDto);
+                }
+            }
+            return movieList;
         }
 
-        public Movie UpdateMovie(Movie movie)
+        public MovieDto UpdateMovie(int id, MovieUpdateDto updatedMovie)
         {
-            var existingMovie = StaticDb.Movies.FirstOrDefault(x => x.Id == movie.Id);
+            var existingMovie = _movieRepo.GetById(id);
             if (existingMovie != null)
             {
-                existingMovie.Title = movie.Title;
-                existingMovie.Description = movie.Description;
-                existingMovie.Year = movie.Year;
-                existingMovie.Genre = movie.Genre;
-                return existingMovie;
+                existingMovie.Title = updatedMovie.Title;
+                existingMovie.Description = updatedMovie.Description;
+                existingMovie.Year = updatedMovie.Year;
+                existingMovie.Genre = updatedMovie.Genre;
+
+                _movieRepo.Update(existingMovie);
+
+                return MovieMapper.ToMovieDto(existingMovie);
             }
             return null;
         }
@@ -89,8 +99,9 @@ namespace Qinshift.Movies.Services.Implementation
             if (existingMovie != null)
             {
                 _movieRepo.Remove(existingMovie.Id);
+                return 1;
             }
-            return 1;
+            return 0;
         }
 
         public void DeleteMovieByIdFromBody(int id)
