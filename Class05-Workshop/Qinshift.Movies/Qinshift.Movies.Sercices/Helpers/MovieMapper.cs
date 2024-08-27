@@ -8,6 +8,11 @@ namespace Qinshift.Movies.Services.Helpers
     {
         public static MovieDto ToMovieDto(Movie movie)
         {
+            if (movie == null)
+            {
+                return null;
+            }
+
             return new MovieDto
             {
                 Title = movie.Title,
@@ -24,7 +29,7 @@ namespace Qinshift.Movies.Services.Helpers
                 Title = movieCreateDto.Title,
                 Description = movieCreateDto.Description,
                 Year = movieCreateDto.Year,
-                Genre =(GenreEnum) movieCreateDto.Genre,
+                Genre = (GenreEnum)movieCreateDto.Genre,
             };
         }
         public static Movie ToMovie(MovieUpdateDto movieUpdateDto)
