@@ -1,6 +1,4 @@
-﻿using Qinshift.Movies.DomainModels.Enums;
-
-namespace Qinshift.Movies.DTOs
+﻿namespace Qinshift.Movies.DTOs
 {
     public class MovieDto
     {
