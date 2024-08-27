@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Qinshift.Movies.DTOs;
-using Qinshift.Movies.Services.Helpers;
 using Qinshift.Movies.Services.Implementation;
 
 namespace Qinshift.Movies.API.Controllers
@@ -28,22 +27,23 @@ namespace Qinshift.Movies.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetMovieById(int id)
         {
-            var movie = _movieService.GetMovieById(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-            return Ok(movie);
-        }
-
-        [HttpGet]
-        public IActionResult GetById([FromQuery] int id) {
             try
             {
-                return Ok(_movieService.GetMovieById(id));
+                if (id <= 0)
+                {
+                    return BadRequest("Id must have a positive value!");
+                }
+
+                var movie = _movieService.GetMovieById(id);
+                if (movie == null)
+                {
+                    return NotFound($"Movie with id {id} not found.");
+                }
+
+                return Ok(movie);
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace Qinshift.Movies.API.Controllers
             {
                 if (string.IsNullOrEmpty(genre))
                 {
-                    return BadRequest("You have to send at least one parameter!");
+                    return BadRequest("You have to input a movie genre!");
                 }
 
                 var movies = _movieService.FilterMoviesByGenre(genre);
@@ -68,20 +68,26 @@ namespace Qinshift.Movies.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occured! Contact the admin!");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
         [HttpGet("filter/year")]
         public IActionResult GetMovieByYear([FromQuery] int year)
         {
-            var movies = _movieService.FilterMoviesByYear(year);
+            try
+            {
+                var movieDtos = _movieService.FilterMoviesByYear(year);
+                return Ok(movieDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
-            var movieDtos = MovieMapper.ToMovieDtoList(movies);
-            return Ok(movieDtos);
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public IActionResult UpdateMovie([FromBody] MovieUpdateDto movieUpdateDto)
         {
             if (movieUpdateDto == null || movieUpdateDto.Id == 0)
@@ -89,16 +95,35 @@ namespace Qinshift.Movies.API.Controllers
                 return BadRequest("Invalid movie data.");
             }
 
-            var movie = MovieMapper.ToMovie(movieUpdateDto);
-            var updatedMovie = _movieService.UpdateMovie(movie);
+            var updatedMovieDto = _movieService.UpdateMovie(movieUpdateDto.Id, movieUpdateDto);
 
-            if (updatedMovie == null)
+            if (updatedMovieDto == null)
             {
                 return NotFound("Movie not found.");
             }
 
-            var movieDto = MovieMapper.ToMovieDto(updatedMovie);
-            return Ok(movieDto);
+            return Ok(updatedMovieDto);
+        }
+
+        [HttpPost("add")]
+        public IActionResult AddNewMovie([FromBody] MovieCreateDto newMovie)
+        {
+            try
+            {
+                if (newMovie == null)
+                    return BadRequest("Movie data cannot be null.");
+
+                int newMovieId = _movieService.AddNewMovie(newMovie);
+
+                if (newMovieId == 0)
+                    return StatusCode(StatusCodes.Status400BadRequest, "Movie data is invalid.");
+
+                return CreatedAtAction(nameof(GetMovieById), new { id =  newMovieId }, newMovie);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
