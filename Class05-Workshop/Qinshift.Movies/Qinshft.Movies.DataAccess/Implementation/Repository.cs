@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Qinshft.Movies.DataAccess.Interfaces;
 using Qinshift.Movies.DomainModels;
 
