@@ -16,11 +16,6 @@ namespace Qinshft.Movies.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Movie>()
-            //    .ToTable("Movies")
-            //    .Property(x => x.Title)
-            //    .IsRequired();
-
             InitialDb.InitDb(modelBuilder);
         }
     }
