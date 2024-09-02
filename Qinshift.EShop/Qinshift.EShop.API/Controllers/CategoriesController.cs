@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Qinshift.EShop.DTOs.Category;
 using Qinshift.EShop.Services.Interface;
@@ -18,6 +19,7 @@ namespace Qinshift.EShop.API.Controllers
 
 
         [HttpGet]
+		[Authorize]
 		public IActionResult Get()
 		{
 			return Ok(_categoryService.GetAllCategories());

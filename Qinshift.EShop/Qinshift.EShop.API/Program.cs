@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Qinshift.EShop.Services.Helpers;
 using Qinshift.EShop.Services.Implementation;
 using Qinshift.EShop.Services.Interface;
+using System.Text;
 
 namespace Qinshift.EShop.API
 {
@@ -25,6 +28,28 @@ namespace Qinshift.EShop.API
             builder.Services.RegisterRepositories(connString);
 
             builder.Services.AddTransient<ICategoryService, CategoryService>();
+            builder.Services.AddTransient<IUserService, UserService>();
+
+
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("this is my custom secret key for authentication"))
+                    };
+
+                });
+
 
             var app = builder.Build();
 
@@ -37,6 +62,7 @@ namespace Qinshift.EShop.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
